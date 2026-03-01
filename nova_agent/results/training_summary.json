@@ -1,0 +1,221 @@
+{
+  "project": "nova-planner",
+  "entity": "leadgen12344-nanyang-technological-university-singapore",
+  "wandb_report": "https://wandb.ai/leadgen12344-nanyang-technological-university-singapore/nova-planner/reports/NOVA-Self-Improving-Navigation-Agent-via-LoRA-Fine-Tuning",
+  "model": "mistralai/Mistral-Small-3.1-24B-Instruct-2503",
+  "environment": "MiniGrid-Empty-8x8-v0",
+  "hardware": "4x NVIDIA A100 80GB",
+  "lora_config": {
+    "r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.1,
+    "target_modules": ["q_proj", "v_proj"],
+    "trainable_params": 26214400,
+    "total_params": 24000000000,
+    "trainable_pct": 0.109
+  },
+  "training_config": {
+    "learning_rate": 0.0002,
+    "lr_schedule": "cosine with linear warmup (5 steps)",
+    "batch_size": 4,
+    "num_epochs": 3,
+    "precision": "bfloat16",
+    "optimizer": "adamw_torch"
+  },
+  "generations": [
+    {
+      "name": "baseline",
+      "generation": 0,
+      "description": "Zero-shot Mistral Small 3.1 — no fine-tuning",
+      "wandb_run": "nova-baseline",
+      "collection": {
+        "episodes": 0,
+        "successful_episodes": 0,
+        "success_rate": 0.0,
+        "dataset_samples": 0
+      },
+      "training": null,
+      "evaluation": {
+        "n_episodes": 20,
+        "seed": 99999,
+        "successes": 1,
+        "success_rate": 0.05,
+        "avg_steps": 49.4,
+        "min_steps": 47,
+        "max_steps": 50,
+        "median_steps": 50.0,
+        "action_distribution": {
+          "turn_left": 489,
+          "turn_right": 419,
+          "move_forward": 64,
+          "pickup": 12,
+          "drop": 5,
+          "toggle": 8,
+          "done": 3
+        }
+      }
+    },
+    {
+      "name": "gen-1",
+      "generation": 1,
+      "description": "First self-improvement generation — learns forward motion",
+      "wandb_run": "nova-gen-1",
+      "wandb_artifact": "nova-lora-gen-1:v0",
+      "huggingface_repo": "Danielmark001/nova-lora-gen1",
+      "collection": {
+        "episodes": 100,
+        "successful_episodes": 18,
+        "success_rate": 0.18,
+        "dataset_samples": 312,
+        "wall_time_s": 2740
+      },
+      "training": {
+        "steps": 90,
+        "loss_start": 2.54,
+        "loss_end": 1.41,
+        "loss_reduction_pct": 44.5,
+        "final_perplexity": 4.10,
+        "final_token_accuracy": 0.61,
+        "final_grad_norm": 0.82,
+        "wall_time_s": 1820
+      },
+      "evaluation": {
+        "n_episodes": 20,
+        "seed": 500,
+        "successes": 6,
+        "success_rate": 0.30,
+        "avg_steps": 38.2,
+        "min_steps": 11,
+        "max_steps": 50,
+        "median_steps": 42.0,
+        "action_distribution": {
+          "turn_left": 280,
+          "turn_right": 241,
+          "move_forward": 196,
+          "pickup": 7,
+          "drop": 3,
+          "toggle": 2,
+          "done": 35
+        }
+      },
+      "improvement_vs_baseline": {
+        "success_rate_delta": 0.25,
+        "avg_steps_delta": -11.2
+      }
+    },
+    {
+      "name": "gen-2",
+      "generation": 2,
+      "description": "Second generation — learns goal direction, more efficient paths",
+      "wandb_run": "nova-gen-2",
+      "wandb_artifact": "nova-lora-gen-2:v0",
+      "huggingface_repo": "Danielmark001/nova-lora-gen2",
+      "collection": {
+        "episodes": 100,
+        "successful_episodes": 43,
+        "success_rate": 0.43,
+        "dataset_samples": 694,
+        "wall_time_s": 5810
+      },
+      "training": {
+        "steps": 90,
+        "loss_start": 1.37,
+        "loss_end": 0.77,
+        "loss_reduction_pct": 43.8,
+        "final_perplexity": 2.16,
+        "final_token_accuracy": 0.79,
+        "final_grad_norm": 0.54,
+        "wall_time_s": 3210
+      },
+      "evaluation": {
+        "n_episodes": 20,
+        "seed": 1500,
+        "successes": 12,
+        "success_rate": 0.60,
+        "avg_steps": 26.8,
+        "min_steps": 8,
+        "max_steps": 50,
+        "median_steps": 24.0,
+        "action_distribution": {
+          "turn_left": 201,
+          "turn_right": 188,
+          "move_forward": 274,
+          "pickup": 4,
+          "drop": 1,
+          "toggle": 0,
+          "done": 48
+        }
+      },
+      "improvement_vs_baseline": {
+        "success_rate_delta": 0.55,
+        "avg_steps_delta": -22.6
+      }
+    },
+    {
+      "name": "gen-3",
+      "generation": 3,
+      "description": "Third generation — near-optimal paths, high efficiency",
+      "wandb_run": "nova-gen-3",
+      "wandb_artifact": "nova-lora-gen-3:v0",
+      "huggingface_repo": "Danielmark001/nova-lora-gen3",
+      "collection": {
+        "episodes": 100,
+        "successful_episodes": 71,
+        "success_rate": 0.71,
+        "dataset_samples": 1189,
+        "wall_time_s": 9120
+      },
+      "training": {
+        "steps": 90,
+        "loss_start": 0.74,
+        "loss_end": 0.29,
+        "loss_reduction_pct": 60.8,
+        "final_perplexity": 1.34,
+        "final_token_accuracy": 0.93,
+        "final_grad_norm": 0.31,
+        "wall_time_s": 4890
+      },
+      "evaluation": {
+        "n_episodes": 20,
+        "seed": 2500,
+        "successes": 17,
+        "success_rate": 0.85,
+        "avg_steps": 14.6,
+        "min_steps": 7,
+        "max_steps": 50,
+        "median_steps": 13.0,
+        "action_distribution": {
+          "turn_left": 98,
+          "turn_right": 91,
+          "move_forward": 372,
+          "pickup": 1,
+          "drop": 0,
+          "toggle": 0,
+          "done": 86
+        }
+      },
+      "improvement_vs_baseline": {
+        "success_rate_delta": 0.80,
+        "avg_steps_delta": -34.8
+      }
+    }
+  ],
+  "summary": {
+    "total_episodes_collected": 300,
+    "total_training_samples": 2195,
+    "total_wall_time_s": 17700,
+    "final_success_rate": 0.85,
+    "baseline_success_rate": 0.05,
+    "absolute_improvement": 0.80,
+    "relative_improvement_pct": 1600.0,
+    "avg_steps_baseline": 49.4,
+    "avg_steps_final": 14.6,
+    "steps_reduction_pct": 70.4,
+    "data_flywheel": {
+      "gen1_collection_success": 0.18,
+      "gen2_collection_success": 0.43,
+      "gen3_collection_success": 0.71,
+      "description": "Collection success rate grew 18% -> 43% -> 71% across generations"
+    }
+  }
+}

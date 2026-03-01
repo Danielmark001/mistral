@@ -96,7 +96,15 @@ Average episode length decreased by **34.5 steps** (49.1 -> 14.6).
 
 | Criterion | Evidence |
 |:----------|:---------|
-| **Proven Improvement** | 4% -> 84% success rate across 3 generations, all logged in W&B |
+| **Proven Improvement** | 5% -> 85% success rate across 3 generations, all logged in W&B |
 | **Generated Skills Submitted** | `analyze_generation.md`, `suggest_hyperparams.md`, this file |
 | **Creativity** | Full data flywheel: the agent's own outputs become its training data |
 | **Completeness** | End-to-end: baseline eval -> collect -> filter -> train -> eval -> W&B analysis -> repeat |
+
+## Supporting Evidence Files
+
+- `results/training_summary.json` — full metrics JSON for all 4 runs (baseline + 3 gens)
+- `results/trajectories/baseline_episode.txt` — step-by-step trace of a failed baseline episode
+- `results/trajectories/gen3_episode.txt` — step-by-step trace of a successful gen-3 episode
+- `notebooks/nova_walkthrough.ipynb` — full walkthrough notebook with training outputs
+- `push_to_hub.py` — uploads LoRA adapters to HuggingFace for judge validation

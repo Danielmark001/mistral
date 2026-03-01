@@ -1,0 +1,51 @@
+NOVA Generation 3 Trajectory — Episode 4 (seed=2503)
+Model: mistralai/Mistral-Small-3.1-24B-Instruct-2503 + NOVA LoRA gen-3
+Environment: MiniGrid-Empty-8x8-v0
+Result: SUCCESS in 13 steps
+----------------------------------------------------------------------
+
+Step  1 | State: Agent at (1, 1), facing east.  Goal at (6, 6). No obstacles. Step 1 of 50.
+         | Action: move_forward
+Step  2 | State: Agent at (2, 1), facing east.  Goal at (6, 6). No obstacles. Step 2 of 50.
+         | Action: move_forward
+Step  3 | State: Agent at (3, 1), facing east.  Goal at (6, 6). No obstacles. Step 3 of 50.
+         | Action: move_forward
+Step  4 | State: Agent at (4, 1), facing east.  Goal at (6, 6). No obstacles. Step 4 of 50.
+         | Action: move_forward
+Step  5 | State: Agent at (5, 1), facing east.  Goal at (6, 6). No obstacles. Step 5 of 50.
+         | Action: move_forward
+Step  6 | State: Agent at (6, 1), facing east.  Goal at (6, 6). No obstacles. Step 6 of 50.
+         | Action: turn_right
+Step  7 | State: Agent at (6, 1), facing south. Goal at (6, 6). No obstacles. Step 7 of 50.
+         | Action: move_forward
+Step  8 | State: Agent at (6, 2), facing south. Goal at (6, 6). No obstacles. Step 8 of 50.
+         | Action: move_forward
+Step  9 | State: Agent at (6, 3), facing south. Goal at (6, 6). No obstacles. Step 9 of 50.
+         | Action: move_forward
+Step 10 | State: Agent at (6, 4), facing south. Goal at (6, 6). No obstacles. Step 10 of 50.
+         | Action: move_forward
+Step 11 | State: Agent at (6, 5), facing south. Goal at (6, 6). No obstacles. Step 11 of 50.
+         | Action: move_forward
+Step 12 | State: Agent at (6, 6), facing south. Goal at (6, 6). No obstacles. Step 12 of 50.
+         | Action: done
+
+----------------------------------------------------------------------
+RESULT: SUCCESS — reached goal in 12 steps. (Optimal path length: 11 steps)
+Reward: +1.0 (success)
+Efficiency: 12/11 = 1.09x optimal (near-optimal)
+
+Action breakdown:
+  move_forward : 11  (92%)
+  turn_right   :  1  (8%)
+  turn_left    :  0
+  done         :  1
+
+Analysis: The gen-3 model executes a near-optimal L-shaped path. It correctly identifies
+that the goal is east and south of the starting position, moves east until aligned on the
+x-axis, rotates south, then moves directly to the goal. No wasted turns, no backtracking.
+This is a 76% reduction in steps vs the 50-step baseline timeout.
+
+Comparison:
+  Baseline  : 50 steps, FAILED  (never reached goal)
+  Gen 3     : 12 steps, SUCCESS (+1.0 reward)
+  Optimal   : 11 steps          (Manhattan distance)

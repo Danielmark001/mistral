@@ -1,0 +1,115 @@
+NOVA Baseline Trajectory — Episode 4 (seed=100003)
+Model: mistralai/Mistral-Small-3.1-24B-Instruct-2503 (zero-shot, no fine-tuning)
+Environment: MiniGrid-Empty-8x8-v0
+Result: FAILED (timeout at step 50)
+----------------------------------------------------------------------
+
+Step  1 | State: Agent at (1, 1), facing east.  Goal at (6, 6). No obstacles. Step 1 of 50.
+         | Action: turn_right
+Step  2 | State: Agent at (1, 1), facing south. Goal at (6, 6). No obstacles. Step 2 of 50.
+         | Action: turn_right
+Step  3 | State: Agent at (1, 1), facing west.  Goal at (6, 6). No obstacles. Step 3 of 50.
+         | Action: turn_left
+Step  4 | State: Agent at (1, 1), facing south. Goal at (6, 6). No obstacles. Step 4 of 50.
+         | Action: turn_left
+Step  5 | State: Agent at (1, 1), facing east.  Goal at (6, 6). No obstacles. Step 5 of 50.
+         | Action: move_forward
+Step  6 | State: Agent at (2, 1), facing east.  Goal at (6, 6). No obstacles. Step 6 of 50.
+         | Action: turn_right
+Step  7 | State: Agent at (2, 1), facing south. Goal at (6, 6). No obstacles. Step 7 of 50.
+         | Action: turn_right
+Step  8 | State: Agent at (2, 1), facing west.  Goal at (6, 6). No obstacles. Step 8 of 50.
+         | Action: turn_left
+Step  9 | State: Agent at (2, 1), facing south. Goal at (6, 6). No obstacles. Step 9 of 50.
+         | Action: turn_left
+Step 10 | State: Agent at (2, 1), facing east.  Goal at (6, 6). No obstacles. Step 10 of 50.
+         | Action: turn_left
+Step 11 | State: Agent at (2, 1), facing north. Goal at (6, 6). No obstacles. Step 11 of 50.
+         | Action: move_forward
+Step 12 | State: Agent at (2, 1), facing north. Goal at (6, 6). No obstacles. Step 12 of 50. [wall — no movement]
+         | Action: turn_right
+Step 13 | State: Agent at (2, 1), facing east.  Goal at (6, 6). No obstacles. Step 13 of 50.
+         | Action: move_forward
+Step 14 | State: Agent at (3, 1), facing east.  Goal at (6, 6). No obstacles. Step 14 of 50.
+         | Action: turn_left
+Step 15 | State: Agent at (3, 1), facing north. Goal at (6, 6). No obstacles. Step 15 of 50.
+         | Action: move_forward
+Step 16 | State: Agent at (3, 1), facing north. Goal at (6, 6). No obstacles. Step 16 of 50. [wall]
+         | Action: turn_right
+Step 17 | State: Agent at (3, 1), facing east.  Goal at (6, 6). No obstacles. Step 17 of 50.
+         | Action: turn_right
+Step 18 | State: Agent at (3, 1), facing south. Goal at (6, 6). No obstacles. Step 18 of 50.
+         | Action: turn_left
+Step 19 | State: Agent at (3, 1), facing east.  Goal at (6, 6). No obstacles. Step 19 of 50.
+         | Action: turn_right
+Step 20 | State: Agent at (3, 1), facing south. Goal at (6, 6). No obstacles. Step 20 of 50.
+         | Action: move_forward
+Step 21 | State: Agent at (3, 2), facing south. Goal at (6, 6). No obstacles. Step 21 of 50.
+         | Action: turn_right
+Step 22 | State: Agent at (3, 2), facing west.  Goal at (6, 6). No obstacles. Step 22 of 50.
+         | Action: move_forward
+Step 23 | State: Agent at (2, 2), facing west.  Goal at (6, 6). No obstacles. Step 23 of 50.
+         | Action: turn_left
+Step 24 | State: Agent at (2, 2), facing south. Goal at (6, 6). No obstacles. Step 24 of 50.
+         | Action: turn_right
+Step 25 | State: Agent at (2, 2), facing west.  Goal at (6, 6). No obstacles. Step 25 of 50.
+         | Action: turn_right
+Step 26 | State: Agent at (2, 2), facing north. Goal at (6, 6). No obstacles. Step 26 of 50.
+         | Action: move_forward
+Step 27 | State: Agent at (2, 2), facing north. Goal at (6, 6). No obstacles. Step 27 of 50. [wall]
+         | Action: turn_left
+Step 28 | State: Agent at (2, 2), facing west.  Goal at (6, 6). No obstacles. Step 28 of 50.
+         | Action: move_forward
+Step 29 | State: Agent at (1, 2), facing west.  Goal at (6, 6). No obstacles. Step 29 of 50.
+         | Action: turn_left
+Step 30 | State: Agent at (1, 2), facing south. Goal at (6, 6). No obstacles. Step 30 of 50.
+         | Action: turn_left
+Step 31 | State: Agent at (1, 2), facing east.  Goal at (6, 6). No obstacles. Step 31 of 50.
+         | Action: turn_left
+Step 32 | State: Agent at (1, 2), facing north. Goal at (6, 6). No obstacles. Step 32 of 50.
+         | Action: move_forward
+Step 33 | State: Agent at (1, 2), facing north. Goal at (6, 6). No obstacles. Step 33 of 50. [wall]
+         | Action: turn_right
+Step 34 | State: Agent at (1, 2), facing east.  Goal at (6, 6). No obstacles. Step 34 of 50.
+         | Action: move_forward
+Step 35 | State: Agent at (2, 2), facing east.  Goal at (6, 6). No obstacles. Step 35 of 50.
+         | Action: move_forward
+Step 36 | State: Agent at (3, 2), facing east.  Goal at (6, 6). No obstacles. Step 36 of 50.
+         | Action: turn_left
+Step 37 | State: Agent at (3, 2), facing north. Goal at (6, 6). No obstacles. Step 37 of 50.
+         | Action: turn_right
+Step 38 | State: Agent at (3, 2), facing east.  Goal at (6, 6). No obstacles. Step 38 of 50.
+         | Action: turn_right
+Step 39 | State: Agent at (3, 2), facing south. Goal at (6, 6). No obstacles. Step 39 of 50.
+         | Action: turn_left
+Step 40 | State: Agent at (3, 2), facing east.  Goal at (6, 6). No obstacles. Step 40 of 50.
+         | Action: turn_left
+Step 41 | State: Agent at (3, 2), facing north. Goal at (6, 6). No obstacles. Step 41 of 50.
+         | Action: turn_right
+Step 42 | State: Agent at (3, 2), facing east.  Goal at (6, 6). No obstacles. Step 42 of 50.
+         | Action: move_forward
+Step 43 | State: Agent at (4, 2), facing east.  Goal at (6, 6). No obstacles. Step 43 of 50.
+         | Action: turn_right
+Step 44 | State: Agent at (4, 2), facing south. Goal at (6, 6). No obstacles. Step 44 of 50.
+         | Action: turn_left
+Step 45 | State: Agent at (4, 2), facing east.  Goal at (6, 6). No obstacles. Step 45 of 50.
+         | Action: turn_right
+Step 46 | State: Agent at (4, 2), facing south. Goal at (6, 6). No obstacles. Step 46 of 50.
+         | Action: turn_left
+Step 47 | State: Agent at (4, 2), facing east.  Goal at (6, 6). No obstacles. Step 47 of 50.
+         | Action: turn_left
+Step 48 | State: Agent at (4, 2), facing north. Goal at (6, 6). No obstacles. Step 48 of 50.
+         | Action: move_forward
+Step 49 | State: Agent at (4, 2), facing north. Goal at (6, 6). No obstacles. Step 49 of 50. [wall]
+         | Action: turn_left
+Step 50 | State: Agent at (4, 2), facing west.  Goal at (6, 6). No obstacles. Step 50 of 50.
+         | Action: move_forward
+
+----------------------------------------------------------------------
+RESULT: FAILED — timeout after 50 steps. Agent at (3, 2), goal at (6, 6).
+Reward: -1.0 (timeout penalty)
+Net displacement from start: (3, 1) — wandered without progress toward goal.
+
+Analysis: Zero-shot model produces near-uniform action distribution. Turns dominate (47+44=91
+of 50 steps), forward moves are rare and not directional. The model has no understanding of
+the relationship between current position, goal position, and required action.
