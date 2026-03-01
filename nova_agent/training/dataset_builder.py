@@ -15,7 +15,7 @@ def collect_trajectories(
     env_id: str = "MiniGrid-Empty-8x8-v0",
     max_steps: int = 50,
     seed: int = 42,
-) -> list[list[dict]]:
+) -> list:
     rewarder = StepwiseReward()
     trajectories = []
 
@@ -27,14 +27,21 @@ def collect_trajectories(
         while True:
             text = serialize_state(state)
             action = planner.predict(text)
-            next_state, env_reward, done, _ = env.step(action)
+            next_state, env_reward, done, info = env.step(action)
+            truncated = next_state.get("step", 0) >= max_steps and not next_state.get("success", False)
+
             reward = rewarder.compute(
                 state=next_state,
                 env_reward=env_reward,
                 done=done,
-                truncated=next_state.get("step", 0) >= max_steps,
+                truncated=truncated,
             )
-            traj.append({"state": next_state, "serialized": text, "action": action, "reward": reward})
+            traj.append({
+                "state": next_state,
+                "serialized": text,
+                "action": action,
+                "reward": reward,
+            })
             state = next_state
             if done:
                 break
@@ -48,7 +55,7 @@ def collect_trajectories(
 
 
 def build_dataset(
-    trajectories: list[list[dict]],
+    trajectories: list,
     output_path: str,
     filter_successful: bool = True,
 ) -> int:
@@ -71,6 +78,6 @@ def build_dataset(
     return count
 
 
-def load_jsonl(path: str) -> list[dict]:
+def load_jsonl(path: str) -> list:
     with open(path) as f:
-        return [json.loads(l) for l in f if l.strip()]
+        return [json.loads(line) for line in f if line.strip()]

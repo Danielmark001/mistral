@@ -22,6 +22,9 @@ def evaluate_planner(
     wandb_log: bool = False,
     wandb_project: str = "nova-planner",
 ) -> dict:
+    if n_episodes <= 0:
+        return {"success_rate": 0.0, "avg_steps": 0.0, "min_steps": 0, "max_steps": 0, "action_distribution": {}}
+
     successes = 0
     total_steps = []
     action_counts = {}

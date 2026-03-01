@@ -24,9 +24,9 @@ class NOVAPlanner:
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
 
         self.processor = AutoProcessor.from_pretrained(model_name)
-        # keep tokenizer as alias for training compatibility
         self.tokenizer = self.processor.tokenizer
-        self.tokenizer.pad_token = self.tokenizer.eos_token
+        if self.tokenizer.pad_token is None:
+            self.tokenizer.pad_token = self.tokenizer.eos_token
 
         base_model = AutoModelForCausalLM.from_pretrained(
             model_name,
@@ -65,19 +65,7 @@ class NOVAPlanner:
             messages, tokenize=False, add_generation_prompt=True
         )
 
-    def _build_vision_prompt(self, task: str) -> list:
-        return [
-            {
-                "role": "user",
-                "content": [
-                    {"type": "image"},
-                    {"type": "text", "text": task},
-                ],
-            }
-        ]
-
     def predict(self, serialized_state: str) -> str:
-        """Predict next action from structured text state (used during LoRA training)."""
         prompt = self._build_text_prompt(serialized_state)
         inputs = self.tokenizer(prompt, return_tensors="pt").to(self.device)
 
@@ -95,11 +83,15 @@ class NOVAPlanner:
         return id_to_action.get(chosen_id, "move_forward")
 
     def predict_from_image(self, image: Image.Image, task: str) -> str:
-        """
-        Predict an action from a real screenshot using vision.
-        Returns the model's raw text response (not restricted to action vocab).
-        """
-        messages = self._build_vision_prompt(task)
+        messages = [
+            {
+                "role": "user",
+                "content": [
+                    {"type": "image"},
+                    {"type": "text", "text": task},
+                ],
+            }
+        ]
         text = self.processor.apply_chat_template(
             messages, tokenize=False, add_generation_prompt=True
         )
@@ -116,7 +108,10 @@ class NOVAPlanner:
                 do_sample=False,
             )
 
-        generated = output_ids[0][inputs["input_ids"].shape[1]:]
+        input_len = inputs["input_ids"].shape[1]
+        generated = output_ids[0][input_len:]
+        if len(generated) == 0:
+            return "wait"
         return self.processor.decode(generated, skip_special_tokens=True).strip()
 
     def save(self, path: str):
@@ -131,7 +126,8 @@ class NOVAPlanner:
 
         planner.processor = AutoProcessor.from_pretrained(path)
         planner.tokenizer = planner.processor.tokenizer
-        planner.tokenizer.pad_token = planner.tokenizer.eos_token
+        if planner.tokenizer.pad_token is None:
+            planner.tokenizer.pad_token = planner.tokenizer.eos_token
 
         base_model = AutoModelForCausalLM.from_pretrained(
             base_model_name,

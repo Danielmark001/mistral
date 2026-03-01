@@ -30,9 +30,9 @@ def self_improve_loop(
     planner = NOVAPlanner(model_name=model_name)
     scorer = TrajectoryScorer()
 
-    # baseline eval before any fine-tuning — proves improvement is from training
+    # baseline before any fine-tuning — proves improvement is from training
     print("\nEvaluating baseline (pre-training)...")
-    baseline_run = wandb.init(
+    wandb.init(
         project=wandb_project,
         name="nova-baseline",
         tags=["baseline"],
@@ -44,6 +44,7 @@ def self_improve_loop(
         n_episodes=eval_episodes,
         seed=99999,
         generation=0,
+        wandb_project=wandb_project,
     )
     wandb.log({
         "baseline/success_rate": baseline["success_rate"],
@@ -60,7 +61,7 @@ def self_improve_loop(
         data_path = gen_dir / "train_data.jsonl"
         model_path = gen_dir / "model"
 
-        run = wandb.init(
+        wandb.init(
             project=wandb_project,
             name=f"nova-gen-{gen_num}",
             tags=[f"gen-{gen_num}"],
@@ -97,11 +98,11 @@ def self_improve_loop(
         print(f"Dataset: {n_samples} samples ({collect_success_rate:.1%} success rate)")
 
         if n_samples == 0:
-            print("No successful trajectories — skipping this generation.")
+            print("No successful trajectories — skipping training this generation.")
             wandb.finish()
             continue
 
-        # train
+        # train (logs to current active run via report_to=wandb)
         print("Training planner...")
         train_planner(
             planner=planner,
@@ -113,7 +114,7 @@ def self_improve_loop(
             manage_wandb=False,
         )
 
-        # eval — logged to current run
+        # evaluate — logs to current active run
         print("Evaluating...")
         metrics = evaluate_planner(
             planner=planner,
@@ -121,9 +122,9 @@ def self_improve_loop(
             n_episodes=eval_episodes,
             seed=gen * 1000 + 500,
             generation=gen_num,
+            wandb_project=wandb_project,
         )
 
-        # show delta vs baseline directly on the run
         wandb.log({
             "improvement/success_rate_delta": metrics["success_rate"] - baseline["success_rate"],
             "improvement/avg_steps_delta": baseline["avg_steps"] - metrics["avg_steps"],

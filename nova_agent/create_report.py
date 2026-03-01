@@ -1,3 +1,4 @@
+import os
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -8,7 +9,6 @@ import wandb_workspaces.reports.v2 as wr
 
 PROJECT = "nova-planner"
 ENTITY = "leadgen12344-nanyang-technological-university-singapore"
-API_KEY = "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"
 
 np.random.seed(42)
 
@@ -572,8 +572,8 @@ def create_report():
 
 
 if __name__ == "__main__":
-    import os
-    os.environ["WANDB_API_KEY"] = API_KEY
+    if not os.environ.get("WANDB_API_KEY"):
+        raise RuntimeError("Set WANDB_API_KEY environment variable before running this script.")
 
     print("Logging synthetic runs...")
     log_synthetic_runs()

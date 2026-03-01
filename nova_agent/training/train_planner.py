@@ -12,7 +12,7 @@ from training.dataset_builder import load_jsonl
 
 
 class ActionDataset(Dataset):
-    def __init__(self, records: list[dict], tokenizer, max_length=512):
+    def __init__(self, records: list, tokenizer, max_length=512):
         self.tokenizer = tokenizer
         self.max_length = max_length
         self.items = [r["input"] + "\nAction: " + r["output"] for r in records]
@@ -56,7 +56,9 @@ def train_planner(
 
     records = load_jsonl(train_path)
     dataset = ActionDataset(records, planner.tokenizer)
-    wandb.log({"train/dataset_size": len(dataset), "generation": generation})
+
+    if wandb.run is not None:
+        wandb.log({"train/dataset_size": len(dataset), "generation": generation})
 
     args = TrainingArguments(
         output_dir=output_dir,
@@ -66,31 +68,31 @@ def train_planner(
         bf16=planner.device == "cuda",
         logging_steps=10,
         save_strategy="epoch",
-        report_to="wandb",
+        report_to="wandb" if wandb.run is not None else "none",
         run_name=f"nova-gen-{generation}",
         remove_unused_columns=False,
     )
 
-    Trainer(
+    trainer = Trainer(
         model=planner.model,
         args=args,
         train_dataset=dataset,
         tokenizer=planner.tokenizer,
-    ).train()
-
+    )
+    trainer.train()
     planner.save(output_dir)
 
-    # log LoRA adapter as W&B artifact so judges can validate fine-tuning
-    artifact = wandb.Artifact(
-        name=f"nova-lora-gen-{generation}",
-        type="model",
-        description=f"NOVA LoRA adapter — generation {generation}",
-        metadata={"generation": generation, "base_model": planner.model_name},
-    )
-    artifact.add_dir(output_dir)
-    wandb.log_artifact(artifact)
+    if wandb.run is not None:
+        artifact = wandb.Artifact(
+            name=f"nova-lora-gen-{generation}",
+            type="model",
+            description=f"NOVA LoRA adapter — generation {generation}",
+            metadata={"generation": generation, "base_model": planner.model_name},
+        )
+        artifact.add_dir(output_dir)
+        wandb.log_artifact(artifact)
 
     if manage_wandb and wandb.run is not None:
         wandb.finish()
 
-    print(f"Training complete. Adapter saved to {output_dir} and logged as W&B artifact.")
+    print(f"Training complete. Model saved to {output_dir}")
